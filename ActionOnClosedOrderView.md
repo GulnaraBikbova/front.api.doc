@@ -6,7 +6,7 @@ layout: default
 
 ## Введение
 
-На экран закрытого заказа текущей кассовой смены, а также на экран закрытого заказа прошлой кассовой смены можно добавить свои команды, которые могут выполнять операции, используя объект закрытого заказа. 
+На экран закрытого заказа текущей кассовой смены и на экран возврата товаров по чеку можно добавить свои команды, которые могут выполнять операции, используя объект закрытого заказа. 
 
 ## Как это выглядит в iikoFront?
 
@@ -37,15 +37,15 @@ layout: default
 ![ActionsOnClosedOrderView](../../img/actionOnClosedOrderView/actionsOnClosedOrderView.png) 
 
 
-### 2. На экране закрытого заказа прошлой кассовой смены
+### 2. На экране возврата товаров с чеком (закрытого заказа прошлой кассовой смены)
 
-Для заказов из прошлых кассовых смен, доступ к командам плагинов всегда осуществляется через *«Дополнительные операции»*
+См. [документацию](http://ru.iiko.help/articles/iikofront-6-1/topic-38) по возврату товаров с чеком (заказы из прошлых кассовых смен).
 
 ![ButtonOnPastOrderView](../../img/actionOnClosedOrderView/buttonOnPastOrderView.png) 
 
 ## Как добавить свои расширения?
 
-##### Шаг 1: Зарегистрировать обработчик на экране закрытого заказа:
+##### Шаг 1: Зарегистрировать обработчик для нужного типа экрана закрытого заказа:
  
 ```cs
 subscriptions = new CompositeDisposable
@@ -65,6 +65,9 @@ subscriptions = new CompositeDisposable
 Функция регистрации операции на экран закрытого заказа **прошлой** кассовой смены [`AddButtonOnPastOrderView()`](http://iiko.github.io/front.api.sdk/v6/html/M_Resto_Front_Api_V6_Extensions_PluginIntegrationServiceExtensions_AddButtonOnPastOrderView.htm) также принимает на вход 2 аргумента:
 - **string** — название кнопки, отображается на UI.
 - **action<Guid, ICashRegisterInfo, IViewManager** — функция, которая принимает на вход идентификатор заказа, фискальный регистратор [`ICashRegisterInfo`](http://iiko.github.io/front.api.sdk/v6/html/T_Resto_Front_Api_V6_Data_Device_ICashRegisterInfo.htm) и менеджер окон [`IViewManager`](http://iiko.github.io/front.api.sdk/v6/html/T_Resto_Front_Api_V6_UI_IViewManager.htm).
+
+Заказы закрытых кассовых смен iikoFront не хранит у себя в хранилище, поэтому в методе [`AddButtonOnPastOrderView()`](http://iiko.github.io/front.api.sdk/v6/html/M_Resto_Front_Api_V6_Extensions_PluginIntegrationServiceExtensions_AddButtonOnPastOrderView.htm) по идентификатору заказа не получится получить заказ [`IOrder`](http://iiko.github.io/front.api.sdk/v6/html/T_Resto_Front_Api_V6_Data_Orders_IOrder.htm). 
+Идентификатор заказа прошлой кассовой смены будет полезен плагину или внешнему сервису, если он сам ведет свое хранилище.
 
 Подробнее о менеджере окон [`IViewManager`](http://iiko.github.io/front.api.sdk/v6/html/T_Resto_Front_Api_V6_UI_IViewManager.htm) см. статью [*API диалоговые окна*](ViewManager.html "Диалоговые окна").
 
